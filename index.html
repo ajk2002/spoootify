@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Open Your Gift</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .gift-wrap { display:flex; height:100vh; align-items:center; justify-content:center; flex-direction:column; gap:18px; }
+    .gift { width:160px; height:160px; cursor:pointer; transition:transform .25s ease; }
+    .gift:hover { transform: scale(1.06) rotate(-2deg); }
+    .cta { color:#b78bfa; font-weight:600; opacity:.9; }
+  </style>
+</head>
+<body class="page-dark">
+  <div class="gift-wrap">
+    <!-- Use your own image at assets/gift.png, or keep this emoji -->
+    <img class="gift" src="assets/gift.png" alt="Gift" onclick="openGift()" onerror="this.outerHTML='<div class=&quot;gift-emoji&quot; onclick=&quot;openGift()&quot;>🎁</div>'">
+    <div class="cta">Click the gift</div>
+  </div>
+  <script>
+    function openGift(){ window.location.href = 'playlist.html'; }
+  </script>
+</body>
+</html>

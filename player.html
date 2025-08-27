@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Now Playing</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page-dark">
+  <main class="player-layout">
+    <section class="left-panel">
+      <img id="cover" class="cover" alt="Cover" />
+      <h2 id="title" class="song-title"></h2>
+
+      <div class="controls">
+        <button id="playPause" class="btn btn-primary">Play</button>
+        <input id="seek" type="range" min="0" max="100" value="0" />
+        <div class="time">
+          <span id="current">0:00</span>
+          <span id="duration">0:00</span>
+        </div>
+        <div class="volume">
+          <label>Vol</label>
+          <input id="volume" type="range" min="0" max="1" step="0.01" value="0.9" />
+        </div>
+      </div>
+
+      <audio id="audio" preload="metadata"></audio>
+    </section>
+
+    <section class="right-panel">
+      <h3>Lyrics</h3>
+      <div id="lyrics" class="lyrics"></div>
+    </section>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="scripts/player.js"></script>
+</body>
+</html>
