@@ -76,3 +76,7 @@ seek.addEventListener('change', ()=>{
   seeking = false;
 });
 vol.addEventListener('input', ()=> audio.volume = parseFloat(vol.value));
+
+document.getElementById('backBtn').addEventListener('click', function() {
+  window.location.href = 'playlist.html';
+});

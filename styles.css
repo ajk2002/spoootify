@@ -57,6 +57,21 @@ body.page-dark{
 .lyric-line{ color:#cfcfcf; padding:4px 6px; border-radius:8px; }
 .lyric-line.active{ background:rgba(183,139,250,.18); color:#fff; }
 
+/* Back button */
+.back-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 12px;
+  display: inline-block;
+  transition: filter 0.2s;
+}
+.back-btn:hover svg path {
+  filter: brightness(1.2);
+  stroke: #8a6cf0;
+}
+
 /* Responsive */
 @media (max-width: 900px){
   .player-layout{ grid-template-columns:1fr; }
