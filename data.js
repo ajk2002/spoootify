@@ -25,8 +25,8 @@ const SONGS = [
   {
     id: "song1",
     title: "POTIONS",
-    cover: "assets/POTIONS/unitytut-birdbody.png",
-    audio: "assets/POTIONS/potions2.mp3",
+    cover: "assets/POTIONS/IMG_6415.jpg",
+    audio: "assets/POTIONS/potionscurrent.wav",
     duration: "3:22",
     lyrics: {
       timed: [
