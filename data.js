@@ -37,7 +37,15 @@ const SONGS = [
         { t: 40, line: "Thilangi, Thilangi" },
         { t: 44, line: "Thiri pole mole nee thilangi" },
         { t: 48, line: "Thilangi, Thilangi" },
-        { t: 35, line: "Thiri pole mole" }
+        { t: 52, line: "Thiri pole mole" },
+        { t: 55, line: "It's like I drank a potion and its keeping me awake " },
+        { t: 59, line: "And it makes me think of you every night and day" },
+        { t: 62 , line: "And now that I had a taste" },
+        { t: 67, line: "It can't go to waste" },
+        { t: 71, line: "So please come on over" },
+        { t: 75, line: "I need you closer" },
+        { t: 79, line: "My hand in your hand" },
+        { t: 83, line: "And your head on my shoulder" }
       ]
       // Or use: text: `...` (if you don’t want timestamps)
     }
