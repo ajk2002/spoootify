@@ -24,16 +24,20 @@ Line 3`,
 const SONGS = [
   {
     id: "song1",
-    title: "Sample Song",
-    cover: "assets/unitytut-birdbody.png",
-    audio: "assets/potions2.mp3",
+    title: "POTIONS",
+    cover: "assets/POTIONS/unitytut-birdbody.png",
+    audio: "assets/POTIONS/potions2.mp3",
     duration: "3:42",
     lyrics: {
       timed: [
-        { t: 0, line: "This is the first line" },
-        { t: 6, line: "And here comes the second" },
-        { t: 13, line: "Third line of the chorus" },
-        { t: 20, line: "Keep singing along" }
+        { t: 24, line: "Antha midukki anga irukka" },
+        { t: 28, line: "Ennoda pondatti maari theriyudha" },
+        { t: 32, line: "Moonku suriyan aagave mudiyuma" },
+        { t: 35, line: "Nee una lightu en mela vechiduva" },
+        { t: 40, line: "Thilangi, Thilangi" },
+        { t: 44, line: "Thiri pole mole nee thilangi" },
+        { t: 48, line: "Thilangi, Thilangi" },
+        { t: 35, line: "Thiri pole mole" }
       ]
       // Or use: text: `...` (if you don’t want timestamps)
     }
