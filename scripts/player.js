@@ -23,7 +23,8 @@ vol.value = 0.9; audio.volume = 0.9;
 // Build lyrics (timestamped highlight if provided)
 let timed = (song.lyrics && song.lyrics.timed) ? song.lyrics.timed.slice().sort((a,b)=>a.t-b.t) : null;
 if(timed){
-  lyricsBox.innerHTML = timed.map((l,i)=>`<div class="lyric-line" data-i="${i}">${l.line}</div>`).join('');
+  // Start with an empty lyrics box
+  lyricsBox.innerHTML = '';
 }else{
   const text = (song.lyrics && song.lyrics.text) ? song.lyrics.text : '';
   lyricsBox.textContent = text;
@@ -47,18 +48,18 @@ audio.addEventListener('timeupdate', ()=>{
   currentEl.textContent = fmt(audio.currentTime);
 
   if(timed){
-    // find last line whose t <= current time
+    // Find last line whose t <= current time
     let idx = 0;
     for(let i=0;i<timed.length;i++){
       if(audio.currentTime + 0.10 >= timed[i].t) idx = i; else break;
     }
-    document.querySelectorAll('.lyric-line').forEach((el,i)=>{
-      el.classList.toggle('active', i===idx);
-      if(i===idx){
-        // scroll into view smoothly
-        el.scrollIntoView({block:'nearest', behavior:'smooth'});
-      }
-    });
+    // Show all lyrics up to and including the current one
+    lyricsBox.innerHTML = timed.slice(0, idx + 1).map((l, i) =>
+      `<div class="lyric-line${i === idx ? ' active' : ''}">${l.line}</div>`
+    ).join('');
+    // Scroll the active line into view
+    const activeEl = lyricsBox.querySelector('.lyric-line.active');
+    if (activeEl) activeEl.scrollIntoView({block:'nearest', behavior:'smooth'});
   }
 });
 
