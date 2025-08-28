@@ -81,7 +81,7 @@ const SONGS = [
     id: "song2",
     title: "FREE LUNCH FREESTYLE (azhagu)",
     cover: "assets/freeLunch/IMG_6412.jpg",
-    audio: "aassets/freeLunch/freeLunchfreestyle(azhagu).wav", 
+    audio: "assets/freeLunch/freeLunchfreestyle(azhagu).wav", 
     duration: "1:13",
     lyrics: {
       timed: [
