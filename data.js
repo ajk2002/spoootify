@@ -77,5 +77,43 @@ const SONGS = [
       // Or use: text: `...` (if you don’t want timestamps)
     }
   },
-  // Add more songs here…
+  {
+    id: "song2",
+    title: "FREE LUNCH FREESTYLE (azhagu)",
+    cover: "assets/freeLunch/IMG_6412.jpg",
+    audio: "aassets/freeLunch/freeLunchfreestyle(azhagu).wav", 
+    duration: "1:13",
+    lyrics: {
+      timed: [
+        { t: 1, line: "Ooooooooh " },
+        { t: 3, line: "chellakuttyyyyyyy yeahhh " },
+        { t: 8, line: "this ones for youuuu, this ones for youuuu" },
+        { t: 13, line: "lets go lets go lets go lets go " },
+        { t: 14, line: "aval azhaga irukken, njan oru midukken " },
+        { t: 16, line: "perfect combo, one in a million " },
+        { t: 18, line: "baby come on, show me your brilliance " },
+        { t: 20, line: "you could be aunt viviaaaaaaaaaaan, yeah" },
+        { t: 24, line: "and i could be ur uncle phil" },
+        { t: 26, line: "married in 3 years, yh that’s the deal" },
+        { t: 28 , line: "comin for ur neck but it ain't for the kill nah" },
+        { t: 30, line: "imma tie it up with a thaali, then have a thali" },
+        { t: 32.5, line: "no knife and fork (uh), no parishkari " },
+        { t: 34, line: "come sit on me baby naarkaali" },
+        { t: 36, line: "empty me out yh get me kaali" },
+        { t: 38, line: "wanna see you in the softest saree" },
+        { t: 40, line: "you in a blouse it gets me harny" },
+        { t: 42, line: "ha ha ha harnyyyy" },
+        { t: 45, line: "yh she sexy, fit" },
+        { t: 47, line: "yh she sexy,fit" },
+        { t: 48, line: "like a bag of takis" },
+        { t: 50, line: "she know she the ooh (x3)" },
+        { t: 56, line: "like a bag of takis" },
+        { t: 57.5, line: "she know she the ooh" },
+        { t: 60, line: "oohoohoohooh (ayy) oohoohoohooh " },
+        { t: 65, line: "SHITT" },
+        
+      ]
+      // Or use: text: `...` (if you don’t want timestamps)
+    }
+  }
 ];
