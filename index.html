@@ -66,9 +66,14 @@
   
 
   <div>
+    <div id="game-instructions" style="background:#2d1856;color:#b78bfa;padding:12px 18px;border-radius:12px;font-size:1.1rem;margin-bottom:18px;max-width:500px;">
+      Use your arrow keys to move the circle and collect the squares!
+    </div>
     <canvas id="gameCanvas" width="700" height="500"></canvas>
     <div id="giftMessage" style="display:none; text-align:center; margin-top:30px; font-size:1.2rem; color:#b78bfa; font-weight:600;">
       Well done baby, now here's your gift ily.
+
+      (Pssst.... get your headphones)  
     </div>
     <img id="gift" src="assets/gift.png" alt="Gift" onclick="openGift()" 
          style="display:none; width:130px; height:130px;"
@@ -273,6 +278,7 @@
   drawParticles();
 
   if (collected === items.length) {
+    document.getElementById("game-instructions").style.display = "none";
     document.getElementById("giftMessage").style.display = "block";
     document.getElementById("gift").style.display = "block";
     document.getElementById("cta").textContent = "Click the gift to unlock 🎁";
@@ -282,6 +288,7 @@
     }
     return;
   } else {
+    document.getElementById("game-instructions").style.display = "block";
     document.getElementById("giftMessage").style.display = "none";
     document.getElementById("gift").style.display = "none";
     document.getElementById("giftEmoji").style.display = "none";
