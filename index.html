@@ -1,26 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Open Your Gift</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <title>Unlock the Gift</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
   <style>
-    .gift-wrap { display:flex; height:100vh; align-items:center; justify-content:center; flex-direction:column; gap:18px; }
-    .gift { width:160px; height:160px; cursor:pointer; transition:transform .25s ease; }
-    .gift:hover { transform: scale(1.06) rotate(-2deg); }
-    .cta { color:#b78bfa; font-weight:600; opacity:.9; }
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    canvas {
+      background: #111;
+      border: 2px solid #b78bfa;
+      border-radius: 10px;
+    }
+    #gift {
+      display: none;
+      margin-top: 20px;
+      cursor: pointer;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .cta { margin-top: 10px; color: #b78bfa; font-weight: 600; }
   </style>
 </head>
-<body class="page-dark">
-  <div class="gift-wrap">
-    <!-- Use your own image at assets/gift.png, or keep this emoji -->
-    <img class="gift" src="assets/gift.png" alt="Gift" onclick="openGift()" onerror="this.outerHTML='<div class=&quot;gift-emoji&quot; onclick=&quot;openGift()&quot;>🎁</div>'">
-    <div class="cta">Click the gift</div>
+<body>
+  <div>
+    <canvas id="gameCanvas" width="500" height="400"></canvas>
+    <img id="gift" src="assets/gift.png" alt="Gift" onclick="openGift()" 
+         onerror="this.outerHTML='<div class=&quot;gift-emoji&quot; onclick=&quot;openGift()&quot;>🎁</div>'">
+    <div id="cta" class="cta"></div>
   </div>
-  <script>
-    function openGift(){ window.location.href = 'playlist.html'; }
-  </script>
+
+<script>
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+
+  let player = { x: 50, y: 180, radius: 15, dx: 0, dy: 0, speed: 2 };
+  let keys = {};
+  let collected = 0;
+
+  // 🎨 Replace these file paths with your own images
+  const itemImages = [
+    "assets/gameObjects/IMG_6421.jpg",
+    "assets/gameObjects/IMG_6422.jpg",
+    "assets/gameObjects/IMG_6423.jpg"
+  ];
+
+  // preload images
+  let items = itemImages.map((src, i) => {
+    const img = new Image();
+    img.src = src;
+    return {
+      img: img,
+      x: 120 + i * 120, // spacing out items
+      y: 100 + i * 60,
+      size: 40,
+      collected: false
+    };
+  });
+
+  document.addEventListener("keydown", (e) => keys[e.key] = true);
+  document.addEventListener("keyup", (e) => keys[e.key] = false);
+
+  // Sparkle particles array
+    let particles = [];
+
+    function createSparkles(x, y) {
+    for (let i = 0; i < 12; i++) {
+        particles.push({
+        x: x,
+        y: y,
+        dx: (Math.random() - 0.5) * 4,
+        dy: (Math.random() - 0.5) * 4,
+        life: 1, // opacity
+        size: 3 + Math.random() * 3
+        });
+    }
+    }
+
+    function updateParticles() {
+    particles.forEach(p => {
+        p.x += p.dx;
+        p.y += p.dy;
+        p.life -= 0.02;
+    });
+    particles = particles.filter(p => p.life > 0);
+    }
+
+    function drawParticles() {
+    particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(183,139,250,${p.life})`; // purple sparkle
+        ctx.fill();
+    });
+    }
+  function update() {
+    // movement
+    if (keys["ArrowUp"] || keys["w"]) player.dy = -player.speed;
+    else if (keys["ArrowDown"] || keys["s"]) player.dy = player.speed;
+    else player.dy = 0;
+
+    if (keys["ArrowLeft"] || keys["a"]) player.dx = -player.speed;
+    else if (keys["ArrowRight"] || keys["d"]) player.dx = player.speed;
+    else player.dx = 0;
+
+    player.x += player.dx;
+    player.y += player.dy;
+
+    // boundaries
+    if (player.x - player.radius < 0) player.x = player.radius;
+    if (player.x + player.radius > canvas.width) player.x = canvas.width - player.radius;
+    if (player.y - player.radius < 0) player.y = player.radius;
+    if (player.y + player.radius > canvas.height) player.y = canvas.height - player.radius;
+
+    // collisions
+    items.forEach(item => {
+      if (!item.collected) {
+        let dx = player.x - (item.x + item.size/2);
+        let dy = player.y - (item.y + item.size/2);
+        let distance = Math.sqrt(dx*dx + dy*dy);
+        if (distance < player.radius + item.size/2) {
+            item.collected = true;
+            collected++;
+            createSparkles(item.x + item.size/2, item.y + item.size/2);
+        }
+
+      }
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // draw player
+    ctx.beginPath();
+    ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
+    ctx.fillStyle = "#b78bfa";
+    ctx.fill();
+    ctx.closePath();
+
+    // draw items with sparkle/pulse
+    const time = Date.now() / 300; // controls speed of pulse
+    items.forEach(item => {
+        if (!item.collected) {
+        const pulse = 1 + 0.1 * Math.sin(time + item.x); // makes each pulse slightly different
+        const size = item.size * pulse;
+        const offset = (size - item.size) / 2;
+
+        // glowing aura
+        ctx.save();
+        ctx.shadowColor = "#b78bfa";
+        ctx.shadowBlur = 20;
+        ctx.drawImage(item.img, item.x - offset, item.y - offset, size, size);
+        ctx.restore();
+        }
+    });
+
+  // progress text
+  ctx.fillStyle = "#b78bfa";
+  ctx.font = "16px Inter";
+  ctx.fillText(`Captured: ${collected}/3`, 10, 20);
+}
+
+
+  function gameLoop() {
+    update();
+    updateParticles();
+    draw();
+    drawParticles();
+
+    if (collected === items.length) {
+        document.getElementById("gift").style.display = "block";
+        document.getElementById("cta").textContent = "Click the gift to unlock 🎁";
+        return;
+    }
+
+    requestAnimationFrame(gameLoop);
+  }
+
+
+  function openGift() {
+    window.location.href = "playlist.html";
+  }
+
+  gameLoop();
+</script>
+
 </body>
 </html>
