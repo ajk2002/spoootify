@@ -22,10 +22,20 @@
       border-radius: 10px;
     }
     #gift {
+      width: 130px;
+      height: 130px;
       display: none;
       margin-top: 20px;
       cursor: pointer;
       animation: pulse 1.5s infinite;
+    }
+    .gift-emoji {
+      font-size: 100px;
+      display: none;
+      margin-top: 20px;
+      cursor: pointer;
+      animation: pulse 1.5s infinite;
+      text-align: center;
     }
     @keyframes pulse {
       0% { transform: scale(1); }
@@ -38,8 +48,13 @@
 <body>
   <div>
     <canvas id="gameCanvas" width="500" height="400"></canvas>
+    <div id="giftMessage" style="display:none; text-align:center; margin-top:30px; font-size:1.2rem; color:#b78bfa; font-weight:600;">
+      Well done baby, now here's your gift ily.
+    </div>
     <img id="gift" src="assets/gift.png" alt="Gift" onclick="openGift()" 
-         onerror="this.outerHTML='<div class=&quot;gift-emoji&quot; onclick=&quot;openGift()&quot;>🎁</div>'">
+         style="display:none; width:130px; height:130px;"
+         onerror="this.style.display='none'; document.getElementById('giftEmoji').style.display='block';">
+    <div id="giftEmoji" class="gift-emoji" onclick="openGift()" style="display:none; font-size:100px; text-align:center; margin-top:20px;">🎁</div>
     <div id="cta" class="cta"></div>
   </div>
 
@@ -177,18 +192,28 @@
 
 
   function gameLoop() {
-    update();
-    updateParticles();
-    draw();
-    drawParticles();
+  update();
+  updateParticles();
+  draw();
+  drawParticles();
 
-    if (collected === items.length) {
-        document.getElementById("gift").style.display = "block";
-        document.getElementById("cta").textContent = "Click the gift to unlock 🎁";
-        return;
+  if (collected === items.length) {
+    document.getElementById("giftMessage").style.display = "block";
+    document.getElementById("gift").style.display = "block";
+    document.getElementById("cta").textContent = "Click the gift to unlock 🎁";
+    // If image fails, show emoji
+    if (document.getElementById("gift").style.display === "none") {
+      document.getElementById("giftEmoji").style.display = "block";
     }
+    return;
+  } else {
+    document.getElementById("giftMessage").style.display = "none";
+    document.getElementById("gift").style.display = "none";
+    document.getElementById("giftEmoji").style.display = "none";
+    document.getElementById("cta").textContent = "";
+  }
 
-    requestAnimationFrame(gameLoop);
+  requestAnimationFrame(gameLoop);
   }
 
 
