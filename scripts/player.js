@@ -49,17 +49,21 @@ audio.addEventListener('timeupdate', ()=>{
 
   if(timed){
     // Find last line whose t <= current time
-    let idx = 0;
+    let idx = -1;
     for(let i=0;i<timed.length;i++){
       if(audio.currentTime + 0.10 >= timed[i].t) idx = i; else break;
     }
-    // Show all lyrics up to and including the current one
-    lyricsBox.innerHTML = timed.slice(0, idx + 1).map((l, i) =>
-      `<div class="lyric-line${i === idx ? ' active' : ''}">${l.line}</div>`
-    ).join('');
-    // Scroll the active line into view
-    const activeEl = lyricsBox.querySelector('.lyric-line.active');
-    if (activeEl) activeEl.scrollIntoView({block:'nearest', behavior:'smooth'});
+    // Only show lyrics if at least one line's time has been reached
+    if(idx >= 0){
+      lyricsBox.innerHTML = timed.slice(0, idx + 1).map((l, i) =>
+        `<div class="lyric-line${i === idx ? ' active' : ''}">${l.line}</div>`
+      ).join('');
+      // Scroll the active line into view
+      const activeEl = lyricsBox.querySelector('.lyric-line.active');
+      if (activeEl) activeEl.scrollIntoView({block:'nearest', behavior:'smooth'});
+    } else {
+      lyricsBox.innerHTML = '';
+    }
   }
 });
 
