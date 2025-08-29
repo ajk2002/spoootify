@@ -47,7 +47,7 @@
 </head>
 <body>
   <div>
-    <canvas id="gameCanvas" width="500" height="400"></canvas>
+    <canvas id="gameCanvas" width="700" height="500"></canvas>
     <div id="giftMessage" style="display:none; text-align:center; margin-top:30px; font-size:1.2rem; color:#b78bfa; font-weight:600;">
       Well done baby, now here's your gift ily.
     </div>
@@ -86,6 +86,19 @@
     };
   });
 
+  // Add obstacles (rectangles)
+  const obstacles = [
+    { x: 200, y: 120, w: 40, h: 180 },
+    { x: 400, y: 60, w: 30, h: 250 },
+    { x: 550, y: 300, w: 80, h: 40 }
+  ];
+
+  // Add traps (red circles)
+  const traps = [
+    { x: 350, y: 400, r: 20 },
+    { x: 600, y: 150, r: 25 }
+  ];
+
   document.addEventListener("keydown", (e) => keys[e.key] = true);
   document.addEventListener("keyup", (e) => keys[e.key] = false);
 
@@ -123,42 +136,77 @@
     });
     }
   function update() {
-    // movement
-    if (keys["ArrowUp"] || keys["w"]) player.dy = -player.speed;
-    else if (keys["ArrowDown"] || keys["s"]) player.dy = player.speed;
-    else player.dy = 0;
-
-    if (keys["ArrowLeft"] || keys["a"]) player.dx = -player.speed;
-    else if (keys["ArrowRight"] || keys["d"]) player.dx = player.speed;
-    else player.dx = 0;
-
-    player.x += player.dx;
-    player.y += player.dy;
+    let nextX = player.x + player.dx;
+    let nextY = player.y + player.dy;
 
     // boundaries
-    if (player.x - player.radius < 0) player.x = player.radius;
-    if (player.x + player.radius > canvas.width) player.x = canvas.width - player.radius;
-    if (player.y - player.radius < 0) player.y = player.radius;
-    if (player.y + player.radius > canvas.height) player.y = canvas.height - player.radius;
+    if (nextX - player.radius < 0) nextX = player.radius;
+    if (nextX + player.radius > canvas.width) nextX = canvas.width - player.radius;
+    if (nextY - player.radius < 0) nextY = player.radius;
+    if (nextY + player.radius > canvas.height) nextY = canvas.height - player.radius;
 
-    // collisions
+    // obstacle collision (simple AABB)
+    let blocked = false;
+    obstacles.forEach(obs => {
+      if (
+        nextX + player.radius > obs.x &&
+        nextX - player.radius < obs.x + obs.w &&
+        nextY + player.radius > obs.y &&
+        nextY - player.radius < obs.y + obs.h
+      ) {
+        blocked = true;
+      }
+    });
+
+    if (!blocked) {
+      player.x = nextX;
+      player.y = nextY;
+    }
+
+    // trap collision
+    traps.forEach(trap => {
+      let dx = player.x - trap.x;
+      let dy = player.y - trap.y;
+      let dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < player.radius + trap.r) {
+        // Reset player position
+        player.x = 50;
+        player.y = 180;
+      }
+    });
+
+    // collisions with items
     items.forEach(item => {
       if (!item.collected) {
         let dx = player.x - (item.x + item.size/2);
         let dy = player.y - (item.y + item.size/2);
         let distance = Math.sqrt(dx*dx + dy*dy);
         if (distance < player.radius + item.size/2) {
-            item.collected = true;
-            collected++;
-            createSparkles(item.x + item.size/2, item.y + item.size/2);
+          item.collected = true;
+          collected++;
+          createSparkles(item.x + item.size/2, item.y + item.size/2);
         }
-
       }
     });
   }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // draw obstacles
+    obstacles.forEach(obs => {
+      ctx.fillStyle = "#444";
+      ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
+    });
+
+    // draw traps
+    traps.forEach(trap => {
+      ctx.beginPath();
+      ctx.arc(trap.x, trap.y, trap.r, 0, Math.PI * 2);
+      ctx.fillStyle = "#e74c3c";
+      ctx.fill();
+      ctx.closePath();
+    });
 
     // draw player
     ctx.beginPath();
@@ -168,26 +216,24 @@
     ctx.closePath();
 
     // draw items with sparkle/pulse
-    const time = Date.now() / 300; // controls speed of pulse
+    const time = Date.now() / 300;
     items.forEach(item => {
-        if (!item.collected) {
-        const pulse = 1 + 0.1 * Math.sin(time + item.x); // makes each pulse slightly different
+      if (!item.collected) {
+        const pulse = 1 + 0.1 * Math.sin(time + item.x);
         const size = item.size * pulse;
         const offset = (size - item.size) / 2;
-
-        // glowing aura
         ctx.save();
         ctx.shadowColor = "#b78bfa";
         ctx.shadowBlur = 20;
         ctx.drawImage(item.img, item.x - offset, item.y - offset, size, size);
         ctx.restore();
-        }
+      }
     });
 
-  // progress text
-  ctx.fillStyle = "#b78bfa";
-  ctx.font = "16px Inter";
-  ctx.fillText(`Captured: ${collected}/3`, 10, 20);
+    // progress text
+    ctx.fillStyle = "#b78bfa";
+    ctx.font = "16px Inter";
+    ctx.fillText(`Captured: ${collected}/3`, 10, 20);
 }
 
 
