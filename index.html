@@ -136,6 +136,14 @@
     });
     }
   function update() {
+    // Movement logic (add this at the start of update)
+    player.dx = 0;
+    player.dy = 0;
+    if (keys["ArrowLeft"] || keys["a"]) player.dx = -player.speed;
+    if (keys["ArrowRight"] || keys["d"]) player.dx = player.speed;
+    if (keys["ArrowUp"] || keys["w"]) player.dy = -player.speed;
+    if (keys["ArrowDown"] || keys["s"]) player.dy = player.speed;
+
     let nextX = player.x + player.dx;
     let nextY = player.y + player.dy;
 
