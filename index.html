@@ -43,9 +43,31 @@
       100% { transform: scale(1); }
     }
     .cta { margin-top: 10px; color: #b78bfa; font-weight: 600; }
+    /* Sheenify banner styles */
+    .sheenify-banner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 10px 0;
+      background: linear-gradient(90deg, rgba(183,139,250,1) 0%, rgba(255,255,255,0) 100%);
+      text-align: center;
+      z-index: 1000;
+    }
+    .sheenify-logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #b78bfa;
+      text-shadow: 0 0 10px rgba(183,139,250,0.8);
+    }
   </style>
 </head>
 <body>
+  <!-- Add this just after <body class="..."> -->
+  <header class="sheenify-banner">
+    <span class="sheenify-logo">Sheenify</span>
+  </header>
+
   <div>
     <canvas id="gameCanvas" width="700" height="500"></canvas>
     <div id="giftMessage" style="display:none; text-align:center; margin-top:30px; font-size:1.2rem; color:#b78bfa; font-weight:600;">
@@ -66,21 +88,21 @@
   let keys = {};
   let collected = 0;
 
-  // 🎨 Replace these file paths with your own images
+  // 🎨 Specify image positions individually
   const itemImages = [
-    "assets/gameObjects/IMG_6421.jpg",
-    "assets/gameObjects/IMG_6422.jpg",
-    "assets/gameObjects/IMG_6423.jpg"
+    { src: "assets/gameObjects/IMG_6421.jpg", x: 150, y: 120 },
+    { src: "assets/gameObjects/IMG_6422.jpg", x: 330, y: 350 },
+    { src: "assets/gameObjects/IMG_6423.jpg", x: 600, y: 200 }
   ];
 
-  // preload images
-  let items = itemImages.map((src, i) => {
+  // preload images with custom positions
+  let items = itemImages.map((item) => {
     const img = new Image();
-    img.src = src;
+    img.src = item.src;
     return {
       img: img,
-      x: 120 + i * 120, // spacing out items
-      y: 100 + i * 60,
+      x: item.x,
+      y: item.y,
       size: 40,
       collected: false
     };
@@ -95,8 +117,10 @@
 
   // Add traps (red circles)
   const traps = [
-    { x: 350, y: 400, r: 20 },
-    { x: 600, y: 150, r: 25 }
+    { x: 150, y: 250, r: 20 },
+    { x: 600, y: 150, r: 25 },
+    { x: 350, y: 450, r: 30 },
+    { x: 100, y: 400, r: 40 }
   ];
 
   document.addEventListener("keydown", (e) => keys[e.key] = true);
