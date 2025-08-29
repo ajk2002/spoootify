@@ -75,20 +75,21 @@ body.page-dark{
 /* Sheenify banner */
 .sheenify-banner {
   width: 100%;
-  background: #1db954;
-  padding: 18px 0;
-  text-align: center;
+  background: #2d1856;
+  padding: 18px 0 18px 26px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   margin-bottom: 18px;
+  display: flex;
+  align-items: center;
 }
 .sheenify-logo {
   font-family: 'Inter', 'Arial Rounded MT Bold', 'Arial', sans-serif;
   font-weight: 800;
   font-size: 2rem;
-  color: #fff;
+  color: #b78bfa;
   letter-spacing: 1px;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.12);
-  font-style: italic;
+  text-shadow: 0 2px 8px rgba(183,139,250,0.18);
+  text-align: left;
 }
 
 /* Responsive */
