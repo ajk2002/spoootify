@@ -26,7 +26,7 @@ const SONGS = [
     id: "song1",
     title: "POTIONS",
     cover: "assets/POTIONS/IMG_6415.jpg",
-    audio: "assets/POTIONS/potions3.wav",
+    audio: "assets/POTIONS/potions4.wav",
     duration: "3:22",
     lyrics: {
       timed: [
@@ -91,7 +91,7 @@ const SONGS = [
         { t: 13, line: "lets go lets go lets go lets go " },
         { t: 14, line: "aval azhaga irukken, njan oru midukken " },
         { t: 16, line: "perfect combo, one in a million " },
-        { t: 18, line: "baby come on, show me your brilliance " },
+        { t: 18, line: "baby come on, show me some brilliance " },
         { t: 20, line: "you could be aunt viviaaaaaaaaaaan, yeah" },
         { t: 24, line: "and i could be ur uncle phil" },
         { t: 26, line: "married in 3 years, yh that’s the deal" },
